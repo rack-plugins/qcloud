@@ -13,7 +13,8 @@ import (
 func Allow(c *gin.Context) {
 	// 检查传入 json 参数是否符合
 	var sgrule SGRule
-	if err := c.ShouldBind(&sgrule); err != nil {
+	// 新版本 gin c.ShouldBind 需要额外传入 json type 才能支持，这里用 ShouldBindJSON
+	if err := c.ShouldBindJSON(&sgrule); err != nil {
 		ezap.Error(err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -45,7 +46,8 @@ func (s *SGRule) authorize() error {
 	request.SecurityGroupPolicySet = &vpc.SecurityGroupPolicySet{
 		Ingress: []*vpc.SecurityGroupPolicy{
 			{
-				PolicyIndex:       common.Int64Ptr(10),
+				// 导入位置，默认插入第一个位置
+				PolicyIndex:       common.Int64Ptr(0),
 				Action:            common.StringPtr(s.Policy),
 				CidrBlock:         common.StringPtr(s.IP),
 				Protocol:          common.StringPtr("ALL"),
@@ -71,6 +73,10 @@ func (s *SGRule) authorize() error {
 // 检查 IP 是否为内网 IP，如果是则返回错误
 // 否则通过
 func (s *SGRule) verify() bool {
+	if !IsIPv4(s.IP) {
+		ezap.Errorf("传入 ip[%s] 有误，仅支持 ipv4", s.IP)
+		return false
+	}
 	if IsLanIPv4(s.IP) {
 		ezap.Errorf("传入 ip[%s] 为内网 ip", s.IP)
 		return false
