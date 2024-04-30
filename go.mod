@@ -7,7 +7,7 @@ require (
 	github.com/fimreal/rack v0.5.7
 	github.com/gin-gonic/gin v1.9.1
 	github.com/spf13/cobra v1.8.0
-	github.com/spf13/viper v1.18.2
+	github.com/spf13/viper v1.17.0
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.910
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/vpc v1.0.910
 )
