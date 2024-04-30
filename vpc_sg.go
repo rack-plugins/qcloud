@@ -14,7 +14,7 @@ func Allow(c *gin.Context) {
 	// 检查传入 json 参数是否符合
 	var sgrule SGRule
 	// 新版本 gin c.ShouldBind 需要额外传入 json type 才能支持，这里用 ShouldBindJSON
-	if err := c.ShouldBindJSON(&sgrule); err != nil {
+	if err := c.ShouldBind(&sgrule); err != nil {
 		ezap.Error(err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
