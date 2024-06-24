@@ -7,7 +7,7 @@ import (
 )
 
 func help(ctx *gin.Context) {
-	ctx.String(http.StatusOK, `POST /addsgrule \
+	ctx.String(http.StatusOK, `POST /`+ID+`addsgrule \
 -H "content-type: application/json" \
 -d '{
 	"ip": "192.168.0.100",

@@ -8,7 +8,7 @@ import (
 const (
 	ID            = "qcloud"
 	Comment       = "qcloud api"
-	RoutePrefix   = "/"
+	RoutePrefix   = "/" + ID
 	DefaultEnable = false
 )
 
